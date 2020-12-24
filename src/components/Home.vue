@@ -15,17 +15,19 @@
         <div class="toggle-button" @click="toggleAsideMenu">|||</div>
         <!-- aside menu -->
         <el-menu
+          class="el-menu-vertical-demo"
           :unique-opened="true"
           :collapse="isCollapse"
           :collapse-transition="false"
           :router="true"
+          :default-active="pathName"
           background-color="#333744"
           text-color="#fff"
           active-text-color="#409EFF"
         >
           <!-- first level -->
           <el-submenu
-            :index="fisrtLevelItem.id.toString()"
+            :index="'/'+fisrtLevelItem.path"
             v-for="fisrtLevelItem of menuList"
             :key="fisrtLevelItem.id"
           >
@@ -35,6 +37,7 @@
             </template>
             <!-- seconde level -->
             <el-menu-item
+              :index="'/home/'+secondLevelItem.path"
               v-for="secondLevelItem of fisrtLevelItem.children"
               :key="secondLevelItem.id"
             >
@@ -68,6 +71,11 @@ export default {
         145: 'el-icon-s-data'
       },
       isCollapse: false
+    }
+  },
+  computed: {
+    pathName () {
+      return this.$route.path
     }
   },
   methods: {
