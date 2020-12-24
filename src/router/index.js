@@ -2,12 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
+import Welcome from '@/components/Welcome'
 
 Vue.use(VueRouter)
 
 const routes = [{
   path: '',
-  redirect: Login
+  redirect: '/login'
 },
 {
   path: '/login',
@@ -17,7 +18,14 @@ const routes = [{
 {
   path: '/home',
   name: 'home',
-  component: Home
+  component: Home,
+  redirect: '/home/welcome',
+  children: [
+    {
+      path: 'welcome',
+      component: Welcome
+    }
+  ]
 }
 ]
 
