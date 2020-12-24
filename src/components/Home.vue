@@ -1,13 +1,18 @@
 <template >
   <div>
-    Home
+    <el-button type="info" @click="logout"> logout </el-button>
   </div>
 </template>
 <script>
 export default {
-  name: 'Home'
+  name: 'home',
+  methods: {
+    logout () {
+      window.sessionStorage.removeItem('token')
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 <style lang="less" scope>
-
 </style>

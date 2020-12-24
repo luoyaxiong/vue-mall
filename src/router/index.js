@@ -11,12 +11,12 @@ const routes = [{
 },
 {
   path: '/login',
-  name: 'Login',
+  name: 'login',
   component: Login
 },
 {
   path: '/home',
-  name: 'Home',
+  name: 'home',
   component: Home
 }
 ]
@@ -24,6 +24,15 @@ const routes = [{
 const router = new VueRouter({
   routes,
   mode: 'history'
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login') return next()
+  const tokenstr = window.sessionStorage.getItem('token')
+  // Actually, we should valid whether the token is right
+  if (!tokenstr) return next('/login')
+
+  next()
 })
 
 export default router
