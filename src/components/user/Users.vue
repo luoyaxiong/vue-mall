@@ -94,8 +94,8 @@
               <el-tooltip class="item" effect="dark" content="Delete" :enterable="false">
                 <el-button size="mini"  type="danger" icon="el-icon-delete" @click="showDeleteDialog(slotProps.row.id)"></el-button>
               </el-tooltip>
-              <el-tooltip class="item" effect="dark" content="Set role" :enterable="false" @click="showSetDialog(slotProps.row.id)" >
-                <el-button size="mini"  type="warning" icon="el-icon-setting"></el-button>
+              <el-tooltip class="item" effect="dark" content="Set role" :enterable="false" >
+                <el-button size="mini"  type="warning" icon="el-icon-setting" @click="showSetDialog(slotProps.row)" ></el-button>
               </el-tooltip>
           </template>
         </el-table-column>
@@ -215,7 +215,32 @@
         <el-button @click="deleteDialogVisible = false">cancel</el-button>
         <el-button type="primary" @click="deleteUserConfirm">Confirm</el-button>
       </span>
-</el-dialog>
+    </el-dialog>
+
+    <!-- set role -->
+    <el-dialog
+      title="Set Role"
+      :visible.sync="roleDialogVisible"
+      width="50%"
+      @close="setRoleDialogClosed"
+      >
+      <div>
+        <p>Username:  {{selectedUser.username}}</p>
+        <p>    Role:  {{selectedUser.role_name}}</p>
+        <el-select v-model="selecteRoleId" placeholder="Please select">
+          <el-option
+            v-for="item in roleList"
+            :key="item.id"
+            :label="item.roleName"
+            :value="item.id">
+          </el-option>
+        </el-select>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="roleDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="confirmSetRole">Confirm</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -320,7 +345,12 @@ export default {
         ]
       },
       deleteDialogVisible: false,
-      deleteId: null
+      deleteId: null,
+      roleDialogVisible: false,
+      selectedUser: {},
+      roleList: [],
+      selecteRoleId: ''
+
     }
   },
   computed: {},
@@ -329,13 +359,19 @@ export default {
       const { data: res } = await this.$http.get('users', {
         params: this.queryInfo
       })
-      // console.log(res)
       if (res.meta.status !== 200) {
         return this.$message.error(res.meta.msg)
       }
       this.userList = res.data.users
       this.filteredUserList = this.userList
       this.total = res.data.total
+    },
+    async getRoleList () {
+      const { data: res } = await this.$http.get('roles')
+      if (res.meta.status !== 200) {
+        return this.$message.err('Get roles fail')
+      }
+      this.roleList = res.data
     },
     handleSizeChange (newSize) {
       this.queryInfo.pagesize = newSize
@@ -423,8 +459,29 @@ export default {
       this.getUsersList()
       this.$message('Delete user success')
     },
-    showSetDialog () {
-
+    showSetDialog (role) {
+      this.roleDialogVisible = true
+      this.selectedUser = role
+      this.getRoleList()
+    },
+    async confirmSetRole () {
+      if (!this.selecteRoleId) {
+        return this.$message.error('Please select a role')
+      }
+      const { data: res } = await this.$http.put(`users/${this.selectedUser.id}/role`, {
+        rid: this.selecteRoleId
+      })
+      console.log(res)
+      if (res.meta.status !== 200) {
+        return this.$message.error('Set role fail')
+      }
+      this.$message.success('Set role success')
+      this.getUsersList()
+      this.roleDialogVisible = false
+    },
+    setRoleDialogClosed () {
+      this.selectedUser = {}
+      this.selecteRoleId = ''
     }
 
   },
