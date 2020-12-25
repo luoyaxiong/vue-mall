@@ -94,7 +94,7 @@
               <el-tooltip class="item" effect="dark" content="Delete" :enterable="false">
                 <el-button size="mini"  type="danger" icon="el-icon-delete" @click="showDeleteDialog(slotProps.row.id)"></el-button>
               </el-tooltip>
-              <el-tooltip class="item" effect="dark" content="Set role" :enterable="false">
+              <el-tooltip class="item" effect="dark" content="Set role" :enterable="false" @click="showSetDialog(slotProps.row.id)" >
                 <el-button size="mini"  type="warning" icon="el-icon-setting"></el-button>
               </el-tooltip>
           </template>
@@ -422,6 +422,9 @@ export default {
       this.deleteId = null
       this.getUsersList()
       this.$message('Delete user success')
+    },
+    showSetDialog () {
+
     }
 
   },
