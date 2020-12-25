@@ -4,7 +4,7 @@
     <el-header>
       <div class="header">
         <img src="@/assets/EPFL-logo.png" alt="epfl-logo" />
-        <span>data management system</span>
+        <span>Data Management System</span>
       </div>
       <el-button type="info" @click="logout"> Logout </el-button>
     </el-header>

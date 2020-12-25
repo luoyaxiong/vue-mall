@@ -62,6 +62,7 @@ export default {
           }
         ],
         password: [
+          { required: true, message: 'Please input password', trigger: 'blur' },
           {
             min: 6,
             max: 12,
