@@ -6,7 +6,7 @@
         <img src="@/assets/EPFL-logo.png" alt="epfl-logo" />
         <span>Data Management System</span>
       </div>
-      <el-button type="info" @click="logout"> Logout </el-button>
+      <el-button class="logout" type="info" @click="logout"> Logout </el-button>
     </el-header>
     <!-- body -->
     <el-container>
@@ -99,10 +99,15 @@ export default {
   }
 }
 </script>
-<style lang="less" scope>
+<style lang="less">
 .el-container {
   height: 100%;
 }
+
+.logout {
+  transform: translateX(-30px);
+}
+
 .el-header {
   display: flex;
   justify-content: space-between;

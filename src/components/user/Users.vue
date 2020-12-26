@@ -221,7 +221,7 @@
     <el-dialog
       title="Set Role"
       :visible.sync="roleDialogVisible"
-      width="50%"
+      width="30%"
       @close="setRoleDialogClosed"
       >
       <div>
