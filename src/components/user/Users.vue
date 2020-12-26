@@ -81,7 +81,7 @@
             </el-switch>
           </template>
         </el-table-column>
-
+        <!-- action -->
         <el-table-column
           label="Action"
           width="200"
